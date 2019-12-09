@@ -1,0 +1,55 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+<title>Dashboard</title>
+{% endblock %}
+
+{% block body %}
+<main role="main" class="container">
+    <div class="jumbotron mt-5">
+        <h1>WELCOME, {{user.username}}</h1>
+        {% if session.role == 'Techer' %} 
+            <p class="lead">This is Teacher Portal</p>     
+        {% endif %}   
+        {% if session.role == 'Student' %}
+            <p class="lead">This is Student Portal</p>
+        {% endif %}
+    </div>
+
+    <div class="card w-50">
+        <h5 class="card-header">Profile</h5>
+        {% if msg %}
+        <div class="alert alert-danger" role="alert">{{ msg }}</div>
+        {% endif %}
+        <div class="card-body">
+
+            <form action="/profile/update/{{user.id}}" method="POST" class="w-50">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" class="form-control" id="username" placeholder="Username"
+                        value="{{user.username}}">
+                    <!-- <small id="emailHelp" class="form-text text-muted"></small> -->
+
+                    <label for="email">Email address</label>
+                    <input type="email" name="email" class="form-control" id="email" placeholder="Enter email"
+                        value="{{user.email}}">
+                    <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="text" name="password" class="form-control" id="password" placeholder="Password"
+                        value="{{user.password}}">
+                </div>
+
+                <div class="form-group">
+                    <label for="role">User Role</label>
+                    <input type="text" disabled="true" class="form-control" id="role"
+                        value="{{user.role}}">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Update</button>
+            </form>
+        </div>
+    </div>
+</main>
+{% endblock %}

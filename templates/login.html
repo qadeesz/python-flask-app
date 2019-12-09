@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+
+{% block head %}
+<title>Login</title>
+{% endblock %}
+
+{% block body %}
+<main role="main" class="container">
+    <form action="/login" method="POST" class="form-signin text-center m-auto w-25">
+        <img class="mb-4" src="static/img/bootstrap-solid.svg" alt="" width="72" height="72">
+        <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+        {% if msg %}
+        <div class="alert alert-danger" role="alert">{{ msg }}</div>
+        {% endif %}
+        <input type="email" name="email" id="inputEmail" class="form-control mb-3" placeholder="Email address" required
+            autofocus>
+        <input type="password" name="password" id="inputPassword" class=" mb-3 form-control" placeholder="Password"
+            required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+    </form>
+</main>
+{% endblock %}
