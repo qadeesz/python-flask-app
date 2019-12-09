@@ -27,13 +27,26 @@
                 <h1 class="h2">Dashboard</h1>
 
                 <div class="btn-toolbar mb-2 mb-md-0">
-                    <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
+                    <button type="button" class="btn btn-primary" data-action="add" data-toggle="modal"
+                        data-target="#editModal">
+                        Add New
+                    </button>
+                    <!-- <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search"> -->
                 </div>
             </div>
 
-            <button type="button" class="btn btn-primary" data-action="add" data-toggle="modal" data-target="#editModal">
-                Add New
-            </button>
+            <!-- <div class="form-group w-25">
+                <div class="input-group">
+                    <input type="text" name="search" id="search" placeholder="Search by All" class="form-control" />
+                </div>
+            </div> -->
+
+            <form class="form-inline " action="/search" method="POST">
+                <div class="form-group w-25 mb-2 mr-2">
+                    <input type="text" name="search" class="w-100 form-control" id="search" placeholder="Search by username" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-primary mb-2">Search</button>
+            </form>
 
             <table class="table mt-3 table-hover table-responsive">
                 <thead>
@@ -45,10 +58,10 @@
                         <th scope="col" colspan="2">Action</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody id="result">
                     {% for user in users %}
                     <tr>
-                        <th scope="row" id="row-{{user.id}}">{{user.id}}</th>
+                        <th scope="row" >{{user.id}}</th>
                         <td class="username">
                             {{user.username}}
                         </td>
@@ -58,11 +71,13 @@
                         </td>
                         <td style="display: none;" class="password">{{user.password}}</td>
                         <td>
-                            <button type="button" class="btn btn-warning" data-row="{{user.id}}" data-action="edit" data-toggle="modal"
+                            <button type="button" {% if user.role == 'admin' %} disabled="true" {% endif %}
+                                class="btn btn-warning" data-row="{{user}}" data-action="edit" data-toggle="modal"
                                 data-target="#editModal">
                                 Edit
                             </button>
-                            <a class="btn btn-danger" href="/user/delete/{{user.id}}">Delete</a>
+                            <a class="btn btn-danger" {% if user.role == 'admin' %} href="javascript:void(0)" {% else %}
+                                href="/user/delete/{{user.id}}" {% endif %}>Delete</a>
                         </td>
                     </tr>
                     {%  endfor %}
@@ -97,8 +112,8 @@
                                 </div>
                                 <div class="form-group hidden-password" style="display: none;">
                                     <label for="password">Password</label>
-                                    <input type="hidden" name="password" class="form-control randomPassword" id="password"
-                                        placeholder="Password">
+                                    <input type="hidden" name="password" class="form-control randomPassword"
+                                        id="password" placeholder="Password">
                                 </div>
 
                                 <input type="hidden" name="redirect" value="admin">
